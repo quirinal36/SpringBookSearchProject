@@ -9,12 +9,10 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -23,7 +21,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
@@ -52,7 +49,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 @EnableWebMvc
 @PropertySource("classpath:db.properties")
-@MapperScan(basePackages="jcoding.kr.book")
 public class AppConfig implements WebMvcConfigurer {
 
 	// db.properties 파일을 읽어옴

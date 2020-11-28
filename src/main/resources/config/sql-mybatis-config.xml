@@ -5,5 +5,6 @@
 <configuration>
     <typeAliases>
 		<typeAlias type="jcoding.kr.book.vo.BookInfo" alias="book"/>
+		<typeAlias type="jcoding.kr.book.vo.PhotoInfo" alias="photo"/>
     </typeAliases>
 </configuration>

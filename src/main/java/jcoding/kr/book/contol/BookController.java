@@ -14,8 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -46,67 +48,78 @@ public class BookController {
     return mv;
   }
   
+  @RequestMapping(value="/detail/{id}")
+  public ModelAndView getDetailView(ModelAndView mv, 
+		  @PathVariable(value="id")String id) {
+	  BookInfo info = new BookInfo();
+	  info.setId(Integer.parseInt(id));
+	  
+	  info = bookService.selectOne(info);
+	  
+	  mv.addObject("book", info);
+	  mv.setViewName("/book/detailView");
+	  return mv;
+  }
+  
+  @RequestMapping(value="/update")
+  public ModelAndView getUpdateView(ModelAndView mv,
+		  @RequestParam(value="id")String id) {
+	  BookInfo info = new BookInfo();
+	  info.setId(Integer.parseInt(id));
+	  
+	  info = bookService.selectOne(info);
+	  
+	  mv.addObject("book", info);
+	  mv.setViewName("/book/insertForm");
+	  return mv;
+  }
+  
+  /**
+   * 책 정보를 입력하는 화면을 구성하기 위한 메소드
+   * @param mv
+   * @return
+   */
+  @RequestMapping(value="/insert", method = RequestMethod.GET)
+  public ModelAndView getInsertView(ModelAndView mv) {
+	  mv.setViewName("/book/insertForm");
+	  return mv;
+  }
+  
+  /**
+   * 책 정보를 전달받아서 DB에 저장하는 함수
+   * @param info
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value="/insert", method = RequestMethod.POST)
+  public String insertBook(BookInfo info) {
+	  int result = 0;
+	  
+	  logger.info(info.toString());
+	  if(info.getId() > 0) {
+		  // 수정하기 화면에서 넘어왔을 경우
+		  result = bookService.update(info);
+	  }else {
+		  // id 값이 없다면 새로 입력하는 단계
+		  result = bookService.insert(info);
+	  }
+	  JSONObject json = new JSONObject();
+	  json.put("result", result);
+	  return json.toString();
+  }
+  @ResponseBody
+  @RequestMapping(value="/delete")
+  public String deleteBook(BookInfo info) {
+	  JSONObject json = new JSONObject();
+	  int result = bookService.delete(info);
+	  json.put("result", result);
+	  return json.toString();
+  }
   @RequestMapping(value="/add")
   public ModelAndView getAddView(ModelAndView mv) {
 	  mv.setViewName("/book/add");
 	  return mv;
   }
-  @ResponseBody
-  @RequestMapping(value = "/upload/image", method = {RequestMethod.POST})
-  public String uploadImage(MultipartHttpServletRequest request, 
-          HttpServletResponse response) {
-		JSONObject result = new JSONObject();
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		logger.info("isMultipart: " + isMultipart);
-		Iterator<String> itr = request.getFileNames();
-		logger.info("itr: " + itr.hasNext());
-		
-		MultipartFile mpf;
-	    if (itr.hasNext()) {
-	        mpf = request.getFile(itr.next());
-	        String newFilenameBase = UUID.randomUUID().toString();
-	        String originalFileExtension = mpf.getOriginalFilename().substring(mpf.getOriginalFilename().lastIndexOf("."));
-	        String newFilename = newFilenameBase + originalFileExtension;
-	        
-	        String srcPath = makeUserPath();
-	        String contentType = mpf.getContentType();
-	        
-	        File newFile = new File(srcPath + File.separator + newFilename);
-	        try {
-	            mpf.transferTo(newFile);
-	            
-	            PhotoInfo photo = new PhotoInfo();
-	            photo.setName(mpf.getOriginalFilename());
-	            photo.setNewFilename(newFilename);
-	            photo.setSize((int)mpf.getSize());
-	            photo.setContentType(contentType);
-	            
-	            result.put("type", "image");
-	            result.put("file", photo);
-	            result.put("result", 1);
-	        } catch(IOException e) {
-	            logger.info("Could not upload file " + e.getLocalizedMessage());
-	            result.put("result", 0);
-	        }
-	    }
-	    return result.toString();
-	}
-	
-	public String makeUserPath() {
-    String path = System.getProperty("user.dir");
-    
-    StringBuilder builder = new StringBuilder()
-            .append(path).append(File.separator).append("tomcat")
-            .append(File.separator).append("webapps").append(File.separator)
-            .append("repository").append(File.separator)
-            .append("upload").append(File.separator);
-    logger.info(builder.toString());
-    File file = new File(builder.toString());
-    file.mkdirs();
-    
-    final String result = file.getAbsolutePath();
-    return result;
-}
   /*
   @RequestMapping(value="/search")
   public ModelAndView getSearchView(

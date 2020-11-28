@@ -5,10 +5,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BookInfo {
+	int id;
   private String title;   // 도서 제목
   private String contents; // 도서 소개
   private String url;         // 도서 상세 URL

@@ -5,4 +5,34 @@
 	<select id="select-all" resultType="book">
 		SELECT * FROM BookInfo
 	</select>
+	
+	<insert id="insert" parameterType="book">
+		INSERT INTO BookInfo 
+		(title, contents) 
+		VALUES 
+		('${title}', '${contents}');
+	</insert>
+	
+	<select id="select" resultType="book" parameterType="book">
+		SELECT *
+		FROM BookInfo
+		<where>
+			id = ${id}
+		</where>
+	</select>
+	
+	<update id="update" parameterType="book">
+		UPDATE BookInfo 
+		SET
+			title = '${title}' ,
+			contents = '${contents}' 
+		<where>
+			id = ${id}
+		</where>
+	</update>
+	
+	<delete id="delete" parameterType="book">
+		delete from BookInfo
+		where id = ${id}
+	</delete>
 </mapper>

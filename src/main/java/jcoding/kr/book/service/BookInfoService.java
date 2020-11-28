@@ -16,4 +16,20 @@ public class BookInfoService {
 	public List<BookInfo> selectAll(){
 		return dao.selectAll();
 	}
+	
+	public int insert(BookInfo input) {
+		return dao.insert(input);
+	}
+	
+	public BookInfo selectOne(BookInfo input) {
+		return dao.selectOne(input);
+	}
+	
+	public int update(BookInfo input) {
+		return dao.update(input);
+	}
+	
+	public int delete(BookInfo input) {
+		return dao.delete(input);
+	}
 }

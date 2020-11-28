@@ -28,7 +28,11 @@
 				<div class="card">
 					<img src="${book.thumbnail }" class="card-img-top" alt="...">
 					<div class="card-body">
-						<h5 class="card-title">${book.title }</h5>
+						<h5 class="card-title">
+							<a href="<c:url value="/book/detail/${book.id }"/>">
+							${book.title }
+							</a>
+						</h5>
 						<p class="card-text">${book.contents }</p>
 						<a href="${book.url }" class="btn btn-sm btn-primary" target="_blank">책정보 조회하기</a>
 					</div>

@@ -17,4 +17,20 @@ public class BookInfoDAO {
 	public List<BookInfo> selectAll(){
 		return sqlSession.selectList(namespace + ".select-all");
 	}
+	
+	public int insert(BookInfo info) {
+		return sqlSession.insert(namespace +".insert", info);
+	}
+	
+	public BookInfo selectOne(BookInfo info) {
+		return sqlSession.selectOne(namespace +".select", info);
+	}
+	
+	public int update(BookInfo info) {
+		return sqlSession.update(namespace+".update", info);
+	}
+	
+	public int delete(BookInfo info) {
+		return sqlSession.delete(namespace +".delete", info);
+	}
 }
