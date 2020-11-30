@@ -9,18 +9,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PhotoInfo {
-	int id;
-	int uploader;
-	Date wdate;
+public class PhotoInfo extends MultipartObject{
 	String url;
-	String name;
 	String thumbnailFilename;
-	String newFilename;
-	int size;
 	int thumbnailSize;
 	String thumbnailUrl;
-	String contentType;
 	String search;
 	int orderById;
 	int boardId;

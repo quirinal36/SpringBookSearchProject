@@ -14,8 +14,9 @@
 		<input type="text" placeholder="책 요약" name="contents" value="${book.contents }"/>
 		<br>
 		<input type="submit"/>
-		
+		<c:if test="${book.id >0 }">
 		<input type="hidden" name="id" value="${book.id }"/>
+		</c:if>
 	</form>
 </body>
 </html>

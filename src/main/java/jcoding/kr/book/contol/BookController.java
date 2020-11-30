@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import jcoding.kr.book.service.BookInfoService;
+import jcoding.kr.book.service.BookInfoServiceImpl;
 import jcoding.kr.book.vo.BookInfo;
 import jcoding.kr.book.vo.PhotoInfo;
 
@@ -33,7 +34,7 @@ public class BookController {
   private static final Logger logger = LoggerFactory.getLogger(BookController.class);
   
   @Autowired
-  BookInfoService bookService;
+  BookInfoServiceImpl bookService;
   
   @RequestMapping(value="/list")
   public ModelAndView getListView(ModelAndView mv,
@@ -120,20 +121,4 @@ public class BookController {
 	  mv.setViewName("/book/add");
 	  return mv;
   }
-  /*
-  @RequestMapping(value="/search")
-  public ModelAndView getSearchView(
-      BookInfo info,
-      ModelAndView mv) {
-//    BookInfo info = new BookInfo();
-//    info.setTitle(query);
-    mv.addObject("bookInfo", info);
-    
-    BookUtil util = new BookUtil();
-    List<BookInfo> list = util.getBookList(info.getTitle(), "", "", "");
-    mv.addObject("books", list);
-    mv.setViewName("/book/list");
-    return mv;
-  }
-  */
 }
