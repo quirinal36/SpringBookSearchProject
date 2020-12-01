@@ -1,14 +1,7 @@
 package jcoding.kr.book.contol;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import jcoding.kr.book.service.BookInfoService;
 import jcoding.kr.book.service.BookInfoServiceImpl;
 import jcoding.kr.book.vo.BookInfo;
-import jcoding.kr.book.vo.PhotoInfo;
 
 @Controller
 @RequestMapping(value="/book")
@@ -39,8 +28,6 @@ public class BookController {
   @RequestMapping(value="/list")
   public ModelAndView getListView(ModelAndView mv,
       BookInfo info) {
-//    BookUtil util = new BookUtil();
-//    List<BookInfo> list = util.getBookList(info.getTitle(), "", "", "");
 	List<BookInfo> list = bookService.selectAll();
 	
     logger.info("list size: " + list.size());
@@ -96,7 +83,6 @@ public class BookController {
   public String insertBook(BookInfo info) {
 	  int result = 0;
 	  
-	  logger.info(info.toString());
 	  if(info.getId() > 0) {
 		  // 수정하기 화면에서 넘어왔을 경우
 		  result = bookService.update(info);
